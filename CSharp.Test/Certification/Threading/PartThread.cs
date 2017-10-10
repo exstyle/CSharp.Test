@@ -9,13 +9,13 @@ namespace Chapter1
     /// <summary>
     /// Méthode des thread.
     /// </summary>
-    public static class Program
+    public static class PartThread
     {
         public static void Run()
         {
             Exec3();
         }
-
+        
         #region 1
 
         /// <summary>
