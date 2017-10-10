@@ -13,7 +13,7 @@ namespace Chapter1
     {
         public static void Run()
         {
-            Exec2();
+            Exec3();
         }
 
         #region 1
@@ -55,7 +55,7 @@ namespace Chapter1
 
         }
         #endregion
-        
+
         #region 2
         /// <summary>
         /// Avec utilisation d'un paramètre
@@ -67,7 +67,7 @@ namespace Chapter1
             t.Start(5);
             t.Join();
         }
-        
+
         public static void ThreadMethod2(object count)
         {
             for (int i = 0; i < (int)count; i++)
@@ -77,7 +77,32 @@ namespace Chapter1
                 Thread.Sleep(0);
             }
 
-        } 
+        }
+        #endregion
+
+        #region 3 
+        ///Stopping a thread
+
+        public static void Exec3()
+        {
+            bool stopped = false;
+            
+            Thread t = new Thread(new ThreadStart(() =>
+            {
+                while (!stopped)
+                {
+                    Trace.WriteLine("Running...");
+                    Thread.Sleep(1000);
+                }
+            }));
+
+            t.Start();
+            Console.WriteLine("Pressanykeytoexit");
+            Console.ReadKey();
+            stopped = true;
+            t.Join();
+        }
+        
         #endregion
 
     }
