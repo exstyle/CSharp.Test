@@ -1,5 +1,4 @@
-﻿using CSharp.Test.ExpressionTree;
-using System;
+﻿using Certification.ManageFlow;
 
 namespace CSharp.Test
 {
@@ -8,7 +7,8 @@ namespace CSharp.Test
         static void Main(string[] args)
         {
             //ExpressionLambda.Run();
-            Chapter1.Program.Run();
+            //PartThread.Run();
+            PoolThread.Run();
             
             //Console.ReadLine();
         }
