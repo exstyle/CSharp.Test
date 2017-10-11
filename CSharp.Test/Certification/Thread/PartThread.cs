@@ -9,7 +9,7 @@ namespace Chapter1
     /// <summary>
     /// Méthode des thread.
     /// </summary>
-    public static class PoolThread
+    public static class ThreadPart
     {
         public static void Run()
         {
