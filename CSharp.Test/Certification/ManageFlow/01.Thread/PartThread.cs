@@ -109,7 +109,8 @@ namespace Certification.ManageFlow
             Console.WriteLine("Pressanykeytoexit");
             Console.ReadKey();
             stopped = true;
-            t.Join(); // Empeche de fermer le thread principal tant que les autres threads ne sont pas terminés
+            t.Join(); // Empeche de fermer le thread principal tant que les autres threads ne sont pas terminés
+
         }
 
 
@@ -124,7 +125,8 @@ namespace Certification.ManageFlow
 
         #endregion
 
-        #region 4 -  ThreadStaticAttribute        // A thread has its own call stack that stores all the methods that are executed. Local variables
+        #region 4 -  ThreadStaticAttribute
+        // A thread has its own call stack that stores all the methods that are executed. Local variables
         // are stored on the call stack and are private to the thread.
         // A thread can also have its own data that’s not a local variable.By marking a field with the
         // ThreadStatic attribute, each thread gets its own copy of a field(see Listing 1-5).
@@ -161,7 +163,8 @@ namespace Certification.ManageFlow
 
         #endregion
 
-        #region 5 - ThreadLocal<T>
+        #region 5 - ThreadLocal<T>
+
         // If you want to use local data in a thread and initialize it for each thread, you can use the
         // ThreadLocal<T> class. This class takes a delegate to a method that initializes the value.Listing
         // 1-6 shows an example
