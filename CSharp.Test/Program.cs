@@ -11,7 +11,8 @@ namespace CSharp.Test
             //ExpressionLambda.Run();
             //PartThread.Run();
             //PoolThread.Run();
-            PartTask.Run();
+            //PartTask.Run();
+            PartParallelTask.Run();
             
             Trace.WriteLine("Fin appel");
             //Console.ReadLine();

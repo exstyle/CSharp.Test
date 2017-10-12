@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Certification.ManageFlow
@@ -21,7 +23,7 @@ namespace Certification.ManageFlow
     {
         public static void Run()
         {
-            Exec5();
+            Exec8();
         }
 
         #region  1 - Starting a new task
@@ -157,6 +159,7 @@ namespace Certification.ManageFlow
                 tf.StartNew(() => results[0] = 0);
                 tf.StartNew(() => results[1] = 1);
                 tf.StartNew(() => results[2] = 2);
+                
                 return results;
 
             });
@@ -168,6 +171,62 @@ namespace Certification.ManageFlow
             });
 
             finalTask.Wait();
+        }
+
+        #endregion
+
+        #region 7 -  Using Task.WaitAll
+
+        public static void Exec7()
+        {
+            Task[] tasks = new Task[3];
+
+            tasks[0] = Task.Run(() => {
+                Thread.Sleep(1000);
+                Trace.WriteLine("1");
+                return 1;
+            });
+
+            tasks[1] = Task.Run(() => {
+                Thread.Sleep(1000);
+                Trace.WriteLine("2");
+                return 2;
+            });
+
+            tasks[2] = Task.Run(() => {
+                Thread.Sleep(1000);
+                Trace.WriteLine("3");
+                return 3;
+            }
+            );
+
+            Task.WaitAll(tasks); // WhenALl
+        }
+
+        #endregion
+        
+        #region 8 -  Using Task.WhenAny
+
+        public static void Exec8()
+        {
+            Task<int>[] tasks = new Task<int>[3];
+
+            tasks[0] = Task.Run(() => { Thread.Sleep(2000); return 1; });
+            tasks[1] = Task.Run(() => { Thread.Sleep(1000); return 2; });
+            tasks[2] = Task.Run(() => { Thread.Sleep(3000); return 3; });
+
+            while (tasks.Length > 0)
+            {
+                int i = Task.WaitAny(tasks);
+                Task<int> completedTask = tasks[i];
+                Trace.WriteLine(completedTask.Result);
+                var temp = tasks.ToList();
+                temp.RemoveAt(i);
+                tasks = temp.ToArray();
+            }
+
+            // In this example, you process a completed Task as soon as it finishes.
+            // By keeping track of which Tasks are finished, you don’t have to wait until all Tasks have completed.
         }
 
         #endregion
