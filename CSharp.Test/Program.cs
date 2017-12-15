@@ -1,5 +1,6 @@
 ﻿using Certification.ManageFlow;
 using CSharp.Test.Certification.ManageFlow._05.Async;
+using CSharp.Test.TableauApi;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -17,8 +18,10 @@ namespace CSharp.Test
             //PartTask.Run();
             //PartParallelTask.Run();
             //DotNetBlog.Run();
-            AsyncPart.Run();
-            
+            //AsyncPart.Run();
+
+            ManagerRun.Run();
+
             Trace.WriteLine("Fin appel");
             //Console.ReadLine();
         }
