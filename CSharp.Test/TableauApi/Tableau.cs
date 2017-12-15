@@ -65,6 +65,11 @@ namespace CSharp.Test.TableauApi
             return tableau.Colonnes.Where(x => x.NomColonne == name).Skip(position).FirstOrDefault();
         }
 
+        public static Ligne Ligne(this Tableau tableau, string name, int position = 0)
+        {
+            return tableau.Lignes.Where(x => x.NomLigne == name).Skip(position).FirstOrDefault();
+        }
+
         public static Colonne AddColonne(this Tableau tableau, string colonne)
         {
             Colonne currentColonne = colonne.ToCol();
@@ -221,26 +226,21 @@ namespace CSharp.Test.TableauApi
                 results.Add(new TableauValeur()
                 {
                     Colonne = Tableau.Colonne(TableauRes.Tableau1ColonneTotal),
-                    Ligne = GetLigne(item.Item1),
+                    Ligne = Tableau.Ligne(item.Item1),
                     Value = item.Item2
                 });
 
                 results.Add(new TableauValeur()
                 {
                     Colonne = Tableau.Colonne(TableauRes.Tableau1ColonneGaz),
-                    Ligne = GetLigne(item.Item1),
+                    Ligne = Tableau.Ligne(item.Item1),
                     Value = item.Item2 - 1000
                 });
             }
 
             return results;
         }
-
-        public Ligne GetLigne(string ligneName)
-        {
-            return Tableau.Lignes.Where(x => x.NomLigne == ligneName).SingleOrDefault();
-        }
-
+        
         public Colonne GetColonneDeclaration(string name)
         {
             return new Colonne(name);
