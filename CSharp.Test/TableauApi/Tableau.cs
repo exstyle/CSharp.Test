@@ -3,174 +3,10 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using System.Resources;
+using CSharp.Test.TableauApi.Models;
 
 namespace CSharp.Test.TableauApi
 {
-
-    public class Tableau
-    {
-        public List<Ligne> Lignes { get; set; }
-
-        public List<Colonne> Colonnes { get; set; }
-
-        public List<TableauValeur> Values { get; set; }
-    }
-
-    public class Colonne
-    {
-        public Colonne(string nomColonne)
-        {
-            NomColonne = nomColonne;
-        }
-
-        public string NomColonne { get; set; }
-
-        public int Position { get; set; }
-
-        public string Style { get; set; }
-
-    }
-
-    public class Ligne
-    {
-        public Ligne(string nomLigne)
-        {
-            NomLigne = nomLigne;
-        }
-
-        public string NomLigne { get; set; }
-
-        public int Position { get; set; }
-
-        public int Indentation { get; set; }
-
-        public string Style { get; set; }
-
-        public Tableau Tableau { get; set; }
-    }
-
-    public class TableauValeur
-    {
-        public Colonne Colonne { get; set; }
-
-        public Ligne Ligne { get; set; }
-
-        public double Value { get; set; }
-    }
-
-    internal static class TestExtension
-    {
-        public static Colonne Colonne (this Tableau tableau, string name,  int position = 0)
-        {
-            return tableau.Colonnes.Where(x => x.NomColonne == name).Skip(position).FirstOrDefault();
-        }
-
-        public static Ligne Ligne(this Tableau tableau, string name, int position = 0)
-        {
-            return tableau.Lignes.Where(x => x.NomLigne == name).Skip(position).FirstOrDefault();
-        }
-
-        public static Colonne AddColonne(this Tableau tableau, string colonne)
-        {
-            Colonne currentColonne = colonne.ToCol();
-            if (tableau.Colonnes == null)
-                tableau.Colonnes = new List<Colonne>();
-
-            currentColonne.Position = tableau.Colonnes.Count;
-            tableau.Colonnes.Add(currentColonne);
-
-            return currentColonne;
-
-        }
-
-        public static Ligne AddLigne(this Tableau tableau, string name)
-        {
-            if (tableau.Lignes == null)
-                tableau.Lignes = new List<Ligne>();
-
-            Ligne ligne = new Ligne(name);
-            ligne.Position = tableau.Lignes.Count;
-            ligne.Indentation = 0;
-            ligne.Tableau = tableau;
-            tableau.Lignes.Add(ligne);
-
-            return ligne;
-
-        }
-
-        public static Ligne AddLigne(this Ligne ligne, string name)
-        {
-            Ligne currentLigne = new Ligne(name);
-            currentLigne.Position = ligne.Position + 1;
-            currentLigne.Indentation = ligne.Indentation;
-            currentLigne.Tableau = ligne.Tableau;
-            ligne.Tableau.Lignes.Add(currentLigne);
-
-            return currentLigne;
-
-        }
-
-        public static Ligne AddChildLigne(this Tableau tableau, string name)
-        {
-            Ligne ligne = new Ligne(name);
-            var last = tableau.Lignes.Last();
-            ligne.Position = last.Position + 1;
-            ligne.Indentation = last.Indentation + 1;
-            ligne.Tableau = tableau;
-            tableau.Lignes.Add(ligne);
-
-            return ligne;
-
-        }
-
-        public static Ligne AddChildLigne(this Ligne ligne, string name)
-        {
-            Ligne currentLigne = new Ligne(name);
-            currentLigne.Tableau = ligne.Tableau;
-            currentLigne.Position = ligne.Position + 1;
-            currentLigne.Indentation = ligne.Indentation + 1;
-            ligne.Tableau.Lignes.Add(currentLigne);
-
-            return currentLigne;
-
-        }
-
-        public static Colonne ToCol(this string name)
-        {
-            return new Colonne(name);
-        }
-
-        public static Ligne ToLigne(this string name)
-        {
-            return new Ligne(name);
-        }
-
-        public static void AddColonneStyle(this Colonne colonne, string style)
-        {
-            colonne.Style = style;
-        }
-
-        public static Ligne AddLigneStyle(this Ligne ligne, string style)
-        {
-            ligne.Style = style;
-            return ligne;
-        }
-
-        public static void AddValue(this Tableau tab, Ligne ligne, Colonne colonnne, double value)
-        {
-            if (tab.Values == null)
-                tab.Values = new List<TableauValeur>();
-
-            tab.Values.Add(new TableauValeur() { Colonne = colonnne, Ligne = ligne, Value = value });
-        }
-
-    }
-
-    public interface IDataManager
-    {
-
-    }
-
     public static class ManagerRun
     {
         public static void Run()
@@ -181,7 +17,7 @@ namespace CSharp.Test.TableauApi
 
     }
 
-    public class Manager : IDataManager
+    public class Manager 
     {
 
         public Tableau Tableau { get; set; } = new Tableau();
@@ -241,11 +77,6 @@ namespace CSharp.Test.TableauApi
             return results;
         }
         
-        public Colonne GetColonneDeclaration(string name)
-        {
-            return new Colonne(name);
-        }
-
         public Tableau LoadResults()
         {
             Tableau.Values = GetResultats();
